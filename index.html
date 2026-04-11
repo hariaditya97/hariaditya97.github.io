@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hari Kumar Aditya — Aerospace Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0a0b; --surface: #111114; --surface2: #16161a;
+    --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.12);
+    --accent: #c8a96e; --accent2: #4a8fa8; --accent3: #6eb58a;
+    --text: #e8e4dc; --muted: #7a776f; --white: #f5f2ec;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.6; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E"); background-size: 256px 256px; pointer-events: none; z-index: 9000; }
+
+  /* NAV — slimmed: name + links only */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 64px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,11,0.97);
+    backdrop-filter: blur(8px);
+  }
+  .nav-logo { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.35em; color: var(--text); text-transform: uppercase; text-decoration: none; }
+  .nav-links { display: flex; gap: 0; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s;
+    padding: 0 20px; border-left: 1px solid var(--border);
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; position: relative; overflow: hidden; }
+  .hero-left { display: flex; flex-direction: column; justify-content: flex-end; padding: 0 64px 100px; position: relative; z-index: 2; }
+  .hero-tag { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s 0.2s forwards; }
+  .hero-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(64px, 8.5vw, 120px); line-height: 0.9; letter-spacing: 0.02em; color: var(--white); margin-bottom: 28px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+  .hero-name .accent { color: var(--accent); }
+  .hero-desc { font-size: 19px; font-style: italic; color: var(--muted); max-width: 380px; line-height: 1.8; margin-bottom: 52px; opacity: 0; animation: fadeUp 0.8s 0.6s forwards; }
+  .hero-cta { display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.8s 0.8s forwards; }
+  .btn-primary { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; background: var(--accent); color: var(--bg); padding: 14px 32px; text-decoration: none; transition: all 0.3s; border: 1px solid var(--accent); }
+  .btn-primary:hover { background: transparent; color: var(--accent); }
+  .btn-ghost { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; background: transparent; color: var(--muted); padding: 14px 32px; text-decoration: none; transition: all 0.3s; border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--muted); color: var(--text); }
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-right::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(200,169,110,0.04) 0%, rgba(74,143,168,0.06) 100%); z-index: 1; }
+  .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 60px 60px; animation: gridShift 20s linear infinite; }
+  @keyframes gridShift { from { transform: translateY(0); } to { transform: translateY(60px); } }
+  .hero-diagram { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .orbit-container { position: relative; width: 380px; height: 380px; }
+  .orbit { position: absolute; inset: 0; border: 1px solid rgba(200,169,110,0.15); border-radius: 50%; animation: spinOrbit 18s linear infinite; }
+  .orbit:nth-child(2) { inset: 40px; border-color: rgba(74,143,168,0.12); animation-duration: 12s; animation-direction: reverse; }
+  .orbit:nth-child(3) { inset: 80px; border-color: rgba(200,169,110,0.08); animation-duration: 8s; }
+  @keyframes spinOrbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  .orbit-dot { position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; transform: translateX(-50%); box-shadow: 0 0 12px rgba(200,169,110,0.6); }
+  .orbit:nth-child(2) .orbit-dot { background: var(--accent2); box-shadow: 0 0 12px rgba(74,143,168,0.6); }
+  .orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60px; height: 60px; border: 1px solid rgba(200,169,110,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(200,169,110,0.05); }
+  .orbit-center::before { content: ''; width: 12px; height: 12px; background: var(--accent); border-radius: 50%; box-shadow: 0 0 20px rgba(200,169,110,0.8); }
+  .hero-stats { position: absolute; bottom: 100px; right: 64px; z-index: 3; display: flex; flex-direction: column; gap: 24px; opacity: 0; animation: fadeLeft 0.8s 1s forwards; }
+  .stat { text-align: right; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 42px; color: var(--white); line-height: 1; }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
+
+  .section-divider { width: 100%; height: 1px; background: var(--border); position: relative; }
+  .section-divider::before { content: ''; position: absolute; left: 64px; top: -1px; width: 80px; height: 3px; background: var(--accent); }
+  .section-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.35em; color: var(--muted); text-transform: uppercase; margin-bottom: 48px; display: flex; align-items: center; gap: 16px; }
+  .section-num::before { content: ''; display: block; width: 32px; height: 1px; background: var(--accent); }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px, 5vw, 72px); line-height: 0.95; color: var(--white); letter-spacing: 0.02em; }
+  .section-title .line2 { color: var(--accent); }
+
+  /* ABOUT */
+  #about { display: grid; grid-template-columns: 1fr 1.6fr; min-height: 80vh; }
+  .about-left { padding: 100px 64px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+  .about-right { padding: 100px 80px; display: flex; flex-direction: column; justify-content: center; }
+  .about-text { font-size: 20px; line-height: 1.85; color: var(--text); margin-bottom: 28px; font-weight: 300; }
+  .about-text strong { color: var(--accent); font-weight: 400; }
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 48px; }
+  .skill-tag { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding: 10px 16px; border: 1px solid var(--border); transition: all 0.3s; cursor: default; }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.04); }
+
+  /* PROJECTS */
+  #projects { padding: 120px 0 0; }
+  .projects-header { padding: 0 64px 80px; display: flex; align-items: flex-end; justify-content: space-between; }
+  .project-count { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); line-height: 2; }
+
+  .project-card { background: var(--bg); border-bottom: 1px solid var(--border); position: relative; overflow: hidden; }
+  .card-summary { padding: 64px; display: grid; grid-template-columns: 1fr 2fr; gap: 64px; align-items: start; cursor: pointer; transition: background 0.3s; }
+  .card-summary:hover { background: var(--surface); }
+  .project-num-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; color: var(--muted); margin-bottom: 20px; }
+  .project-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 4vw, 56px); line-height: 0.95; color: var(--white); letter-spacing: 0.02em; margin-bottom: 20px; }
+  .project-status-badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; padding: 5px 12px; border: 1px solid; }
+  .status-complete { border-color: rgba(110,181,138,0.4); color: var(--accent3); background: rgba(110,181,138,0.05); }
+  .status-active { border-color: rgba(74,143,168,0.4); color: var(--accent2); background: rgba(74,143,168,0.05); }
+  .status-team { border-color: rgba(200,169,110,0.3); color: var(--accent); background: rgba(200,169,110,0.04); }
+  .project-summary-text { font-size: 18px; line-height: 1.85; color: var(--muted); font-style: italic; margin-bottom: 32px; }
+  .project-summary-text strong { color: var(--text); font-style: normal; font-weight: 400; }
+  .tech-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+  .pill { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; padding: 5px 12px; border: 1px solid var(--border); color: var(--muted); }
+  .pill.accent { border-color: rgba(200,169,110,0.3); color: var(--accent); }
+  .pill.accent2 { border-color: rgba(74,143,168,0.3); color: var(--accent2); }
+  .pill.accent3 { border-color: rgba(110,181,138,0.3); color: var(--accent3); }
+  .expand-btn { display: flex; align-items: center; gap: 10px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); cursor: pointer; background: none; border: none; transition: color 0.3s; padding: 0; }
+  .expand-btn:hover { color: var(--accent); }
+  .expand-icon { width: 24px; height: 24px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; transition: transform 0.3s, border-color 0.3s; }
+  .expand-btn:hover .expand-icon { border-color: var(--accent); }
+  .card-summary.open .expand-icon { transform: rotate(45deg); border-color: var(--accent); }
+
+  .card-detail { max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4,0,0.2,1); background: var(--surface); border-top: 1px solid transparent; }
+  .card-detail.open { max-height: 2400px; border-top-color: var(--border); }
+  .detail-inner { padding: 64px; }
+  .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; }
+  .detail-block { margin-bottom: 48px; }
+  .detail-block:last-child { margin-bottom: 0; }
+  .detail-heading { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .detail-text { font-size: 16px; line-height: 1.85; color: var(--muted); }
+  .detail-text strong { color: var(--text); font-weight: 400; }
+  .spec-table { width: 100%; border-collapse: collapse; }
+  .spec-table tr { border-bottom: 1px solid var(--border); }
+  .spec-table tr:last-child { border-bottom: none; }
+  .spec-table td { padding: 10px 0; font-size: 15px; }
+  .spec-table td:first-child { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); width: 45%; }
+  .spec-table td:last-child { color: var(--text); }
+  .pipeline-steps { display: flex; flex-direction: column; }
+  .pipeline-step { display: flex; align-items: flex-start; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .pipeline-step:last-child { border-bottom: none; }
+  .step-num { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); min-width: 28px; padding-top: 2px; }
+  .step-title { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); margin-bottom: 4px; }
+  .step-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .phase-list { display: flex; flex-direction: column; }
+  .phase-item { display: flex; align-items: center; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
+  .phase-item:last-child { border-bottom: none; }
+  .phase-item.done { color: var(--text); }
+  .phase-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--border2); }
+  .phase-dot.done { background: var(--accent3); box-shadow: 0 0 8px rgba(110,181,138,0.5); }
+  .github-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 32px; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent2); text-decoration: none; border: 1px solid rgba(74,143,168,0.3); padding: 12px 24px; transition: all 0.3s; }
+  .github-link:hover { background: rgba(74,143,168,0.08); border-color: var(--accent2); }
+  .result-highlight { background: rgba(200,169,110,0.06); border: 1px solid rgba(200,169,110,0.15); padding: 20px 24px; margin-bottom: 12px; }
+  .result-highlight .num { font-family: 'Bebas Neue', sans-serif; font-size: 40px; color: var(--accent); line-height: 1; }
+  .result-highlight .label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+
+  /* CONTACT */
+  #contact { padding: 140px 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; border-top: 1px solid var(--border); }
+  .contact-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 6vw, 88px); line-height: 0.9; color: var(--white); margin-bottom: 32px; letter-spacing: 0.02em; }
+  .contact-title .accent { color: var(--accent); }
+  .contact-sub { font-size: 18px; font-style: italic; color: var(--muted); line-height: 1.8; margin-bottom: 56px; }
+  .contact-item { padding: 28px 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; transition: border-color 0.3s; }
+  .contact-item:hover { border-color: var(--accent); }
+  .contact-item:first-child { border-top: 1px solid var(--border); }
+  .contact-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--muted); }
+  .contact-value { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); text-decoration: none; transition: color 0.3s; }
+  .contact-value:hover { color: var(--accent); }
+  .contact-arrow { color: var(--muted); font-size: 18px; transition: color 0.3s, transform 0.3s; }
+  .contact-item:hover .contact-arrow { color: var(--accent); transform: translateX(4px); }
+
+  footer { padding: 32px 64px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 14px; color: var(--muted); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+  @media (max-width: 960px) {
+    nav { padding: 16px 24px; }
+    .nav-links { gap: 0; }
+    .nav-links a { padding: 0 12px; font-size: 9px; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 140px 24px 60px; }
+    .hero-right, .hero-stats { display: none; }
+    #about { grid-template-columns: 1fr; }
+    .about-left { padding: 60px 24px 0; border-right: none; border-bottom: 1px solid var(--border); }
+    .about-right { padding: 48px 24px 80px; }
+    .projects-header { padding: 0 24px 48px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .card-summary { grid-template-columns: 1fr; gap: 32px; padding: 40px 24px; }
+    .detail-inner { padding: 40px 24px; }
+    .detail-grid { grid-template-columns: 1fr; gap: 40px; }
+    #contact { grid-template-columns: 1fr; padding: 80px 24px; gap: 60px; }
+    footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">Hari Aditya</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://github.com/hariaditya97" target="_blank">GitHub ↗</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Aerospace Engineer &amp; Product Builder</p>
+    <h1 class="hero-name">Hari<br><span class="accent">Kumar</span><br>Aditya</h1>
+    <p class="hero-desc">Designing systems that move — through water, air, and the digital world.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-diagram">
+      <div class="orbit-container">
+        <div class="orbit"><div class="orbit-dot"></div></div>
+        <div class="orbit"><div class="orbit-dot"></div></div>
+        <div class="orbit"><div class="orbit-dot"></div></div>
+        <div class="orbit-center"></div>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">150<span>K+</span></div><div class="stat-label">App Downloads</div></div>
+      <div class="stat"><div class="stat-num">17<span>%</span></div><div class="stat-label">Drag Reduction</div></div>
+      <div class="stat"><div class="stat-num">6<span>+</span></div><div class="stat-label">Major Projects</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left reveal">
+    <p class="section-num">01 — About</p>
+    <h2 class="section-title">The<br><span class="line2">Engineer</span><br>Behind<br>the Work</h2>
+  </div>
+  <div class="about-right">
+    <p class="about-text reveal">I'm an <strong>aerospace engineer</strong> with an MSc who works at the intersection of complex physical systems and rigorous engineering design. From deep-sea radiation mapping to high-performance aerodynamics, I bring methodical analysis and hands-on fabrication to every challenge.</p>
+    <p class="about-text reveal reveal-delay-1">Beyond hardware, I've designed, launched, and scaled <strong>Kyupid</strong> — a productivity app now surpassing <strong>150,000 downloads worldwide</strong> — and I'm currently building <strong>miniROV</strong>, an open-source tethered ROV with LLM-assisted supervised autonomy, with Phase 0 SITL validation complete.</p>
+    <div class="skills-grid reveal reveal-delay-2">
+      <div class="skill-tag">Fluid Dynamics &amp; CFD</div>
+      <div class="skill-tag">StarCCM+</div>
+      <div class="skill-tag">ArduSub / MAVLink</div>
+      <div class="skill-tag">LLM Integration (Ollama)</div>
+      <div class="skill-tag">Electromechanical Systems</div>
+      <div class="skill-tag">UAV / ROV Design</div>
+      <div class="skill-tag">Flutter / Full-Stack</div>
+      <div class="skill-tag">Composite Fabrication</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="projects-header reveal">
+    <div>
+      <p class="section-num">02 — Projects</p>
+      <h2 class="section-title">Selected<br><span class="line2">Work</span></h2>
+    </div>
+    <p class="project-count">Six projects across<br>hardware, software &amp; open source</p>
+  </div>
+
+  <!-- MINUROV -->
+  <div class="project-card reveal">
+    <div class="card-summary" onclick="toggleCard(this)">
+      <div class="card-left">
+        <div class="project-num-label">01 — Open Source</div>
+        <h3 class="project-title">miniROV</h3>
+        <span class="project-status-badge status-active">Active Development</span>
+      </div>
+      <div class="card-right">
+        <p class="project-summary-text">A tethered underwater ROV with <strong>LLM-assisted supervised autonomy</strong>, built for UK coastal and lake deployments. The operator issues natural language commands; a locally-hosted LLM interprets them and dispatches structured MAVLink instructions — with full manual override retained at all times. <strong>Phase 0 complete</strong>: the full NL → Ollama → pymavlink → ArduSub SITL pipeline is validated.</p>
+        <div class="tech-pills">
+          <span class="pill accent2">ArduSub</span>
+          <span class="pill accent2">MAVLink / pymavlink</span>
+          <span class="pill accent2">Ollama · qwen2.5:14b</span>
+          <span class="pill accent2">Raspberry Pi 5</span>
+          <span class="pill accent2">Navigator Flight Controller</span>
+          <span class="pill">4× T200 Thrusters</span>
+          <span class="pill">Python</span>
+          <span class="pill">SITL Simulation</span>
+        </div>
+        <button class="expand-btn"><span class="expand-icon">+</span><span>Technical Detail</span></button>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">System Architecture</p>
+              <p class="detail-text">A two-node topology connected over a <strong>50 m tether</strong>. Topside: an Apple M4 Pro running Ollama locally for inference, and a Python <em>minirov-brain</em> agent handling command arbitration and safety envelopes. Subsea: a Raspberry Pi 5 running ArduSub via the Blue Robotics Navigator Hat, driving 4× T200 thrusters. No cloud dependency in the inference loop.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">NL → MAVLink Pipeline</p>
+              <div class="pipeline-steps">
+                <div class="pipeline-step"><span class="step-num">01</span><div><div class="step-title">Natural Language Input</div><div class="step-desc">Operator issues plain-English commands — e.g. "descend to 3 m and hold heading north."</div></div></div>
+                <div class="pipeline-step"><span class="step-num">02</span><div><div class="step-title">Ollama Inference (qwen2.5:14b)</div><div class="step-desc">Locally-hosted LLM parses intent and returns a structured JSON action payload. Zero external API latency.</div></div></div>
+                <div class="pipeline-step"><span class="step-num">03</span><div><div class="step-title">minirov-brain Arbitration</div><div class="step-desc">Python agent validates JSON schema, checks safety envelopes, converts to MAVLink RC override messages via pymavlink.</div></div></div>
+                <div class="pipeline-step"><span class="step-num">04</span><div><div class="step-title">ArduSub Execution</div><div class="step-desc">RC override commands reach ArduSub Stable-4.1, which handles low-level stabilisation, depth hold, and thruster mixing. Manual override available at all times.</div></div></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Specifications</p>
+              <table class="spec-table">
+                <tr><td>Topside Compute</td><td>Apple M4 Pro (Ollama local)</td></tr>
+                <tr><td>Subsea Compute</td><td>Raspberry Pi 5</td></tr>
+                <tr><td>Flight Controller</td><td>Blue Robotics Navigator Hat</td></tr>
+                <tr><td>Firmware</td><td>ArduSub Stable-4.1</td></tr>
+                <tr><td>Thrusters</td><td>4× Blue Robotics T200</td></tr>
+                <tr><td>Tether</td><td>50 m (comms + power)</td></tr>
+                <tr><td>LLM</td><td>qwen2.5:14b via Ollama</td></tr>
+                <tr><td>MAVLink Interface</td><td>pymavlink RC override</td></tr>
+                <tr><td>Simulation</td><td>ArduSub SITL (Ph.0 ✓)</td></tr>
+                <tr><td>Target Deployment</td><td>UK coastal &amp; lake</td></tr>
+              </table>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Development Phases</p>
+              <div class="phase-list">
+                <div class="phase-item done"><div class="phase-dot done"></div>Phase 0 — Software foundations &amp; SITL ✓</div>
+                <div class="phase-item"><div class="phase-dot"></div>Phase 1 — Electronics bench build</div>
+                <div class="phase-item"><div class="phase-dot"></div>Phase 2 — Enclosure &amp; frame assembly</div>
+                <div class="phase-item"><div class="phase-dot"></div>Phase 3 — Pool and tank testing</div>
+                <div class="phase-item"><div class="phase-dot"></div>Phase 4 — UK coastal field deployment</div>
+              </div>
+              <a class="github-link" href="https://github.com/hariaditya97/minirov" target="_blank">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+                View on GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNDERWATER GLIDER -->
+  <div class="project-card reveal">
+    <div class="card-summary" onclick="toggleCard(this)">
+      <div class="card-left">
+        <div class="project-num-label">02 — MSc Thesis</div>
+        <h3 class="project-title">Underwater<br>Glider</h3>
+        <span class="project-status-badge status-complete">Complete</span>
+      </div>
+      <div class="card-right">
+        <p class="project-summary-text">Designed and built a <strong>fully deployable underwater glider platform</strong> fitted with a nuclear scintillator for oceanic radiation mapping — motivated by post-Fukushima oceanographic research. A complete end-to-end systems engineering project spanning hydrodynamic design, buoyancy engine fabrication, sensor integration, and field trials.</p>
+        <div class="tech-pills">
+          <span class="pill accent">Buoyancy-Driven Propulsion</span>
+          <span class="pill accent">Nuclear Scintillator</span>
+          <span class="pill accent">Hydrodynamic Design</span>
+          <span class="pill">Radiation Mapping</span>
+          <span class="pill">Embedded Electronics</span>
+          <span class="pill">Mechanical Fabrication</span>
+        </div>
+        <button class="expand-btn"><span class="expand-icon">+</span><span>Technical Detail</span></button>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Design Rationale</p>
+              <p class="detail-text">Oceanographic gliders offer unmatched endurance-to-cost ratios for long-duration surveys compared to propeller-driven AUVs. The design prioritised <strong>minimal acoustic signature</strong> — critical for maintaining signal-to-noise ratio with the scintillator sensor — alongside low drag and practical deployability from a small vessel without specialist launch equipment.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Buoyancy Engine</p>
+              <p class="detail-text">Propulsion is achieved entirely through <strong>buoyancy modulation</strong>: a syringe-based hydraulic system drives a variable-volume external bladder, converting vertical motion into forward glide via fixed wings. Pitch attitude is adjusted by translating an internal battery mass along the longitudinal axis, enabling heading changes without external control surfaces and eliminating associated drag.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Radiation Sensing Payload</p>
+              <p class="detail-text">The payload integrates a <strong>nuclear scintillator</strong> for in-situ gamma radiation detection. Measurements are timestamped against GPS fix (surface) and pressure-derived depth, enabling geo-referenced, depth-resolved radiation maps of the water column — directly replicating the methodology developed for post-Fukushima long-range oceanic contamination surveys.</p>
+            </div>
+          </div>
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Specifications</p>
+              <table class="spec-table">
+                <tr><td>Platform Type</td><td>Buoyancy-driven underwater glider</td></tr>
+                <tr><td>Propulsion</td><td>Variable buoyancy + pitch trim (battery mass)</td></tr>
+                <tr><td>Control Surfaces</td><td>None — pitch via internal mass shift</td></tr>
+                <tr><td>Payload</td><td>Nuclear scintillator (gamma detection)</td></tr>
+                <tr><td>Data Product</td><td>Geo-referenced, depth-resolved radiation maps</td></tr>
+                <tr><td>Mission Context</td><td>Post-Fukushima oceanographic methodology</td></tr>
+                <tr><td>Project Scope</td><td>Full system — design through deployment</td></tr>
+              </table>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Project Outcome</p>
+              <p class="detail-text">Successfully designed, fabricated, and demonstrated a fully deployable platform — from initial hydrodynamic sizing and CAD through structural analysis, buoyancy engine fabrication, scintillator integration, and field trials. Constitutes a complete MSc research artefact demonstrating end-to-end systems engineering at postgraduate level.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRICOPTER -->
+  <div class="project-card reveal">
+    <div class="card-summary" onclick="toggleCard(this)">
+      <div class="card-left">
+        <div class="project-num-label">03 — Team Project</div>
+        <h3 class="project-title">Tricopter<br>UAV</h3>
+        <span class="project-status-badge status-team">Team of Five</span>
+      </div>
+      <div class="card-right">
+        <p class="project-summary-text">As part of a five-person team, designed and manufactured a <strong>custom tricopter UAV</strong> integrating a servo-actuated thrust vectoring mechanism for yaw control — paired with an in-house pickup and release mechanism capable of delivering a <strong>150 g vaccine payload</strong> over a 15-minute flight.</p>
+        <div class="tech-pills">
+          <span class="pill">Thrust Vectoring Yaw</span>
+          <span class="pill">Servo Actuation</span>
+          <span class="pill">UAV Systems</span>
+          <span class="pill accent3">15 min Endurance</span>
+          <span class="pill accent3">150 g Payload</span>
+          <span class="pill">Payload Release Mechanism</span>
+        </div>
+        <button class="expand-btn"><span class="expand-icon">+</span><span>Technical Detail</span></button>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Yaw Control Architecture</p>
+              <p class="detail-text">Conventional tricopters use a servo to tilt the aft rotor, generating yaw torque without a counter-rotating propeller pair. This design uses a <strong>custom-designed servo-driven vectoring mount</strong> on the aft arm, tuned to minimise cross-coupling with roll and pitch channels. The approach avoids the weight and drag penalty of a fourth rotor while retaining aerodynamic efficiency at the design payload fraction.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Payload Delivery System</p>
+              <p class="detail-text">An in-house pickup and release mechanism was designed for field reliability under vibration loading. The system uses a <strong>latched electromagnet</strong> activated via flight controller auxiliary channel, enabling a precise, commanded drop from hover. Maximum payload: <strong>150 g</strong> — sized for a standard vaccine vial pack.</p>
+            </div>
+          </div>
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Specifications</p>
+              <table class="spec-table">
+                <tr><td>Configuration</td><td>Tricopter — 2 fixed + 1 vectored aft</td></tr>
+                <tr><td>Yaw Mechanism</td><td>Servo-actuated thrust vector</td></tr>
+                <tr><td>Max Payload</td><td>150 g (vaccine delivery)</td></tr>
+                <tr><td>Endurance (loaded)</td><td>15 minutes</td></tr>
+                <tr><td>Release Mechanism</td><td>Latched electromagnet (FC AUX output)</td></tr>
+                <tr><td>Team Size</td><td>5 engineers</td></tr>
+              </table>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Design Challenges</p>
+              <p class="detail-text">Balancing endurance against payload fraction required careful motor and propeller selection. The vectoring mechanism introduced significant PID tuning complexity — the aft rotor's changing thrust vector affects pitch authority at extremes of servo travel, requiring gain scheduling and mechanical travel limits to prevent attitude excursions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CFD 3-WHEELER -->
+  <div class="project-card reveal">
+    <div class="card-summary" onclick="toggleCard(this)">
+      <div class="card-left">
+        <div class="project-num-label">04 — CFD + Wind Tunnel</div>
+        <h3 class="project-title">3-Wheeler<br>Aerodynamics</h3>
+        <span class="project-status-badge status-complete">Complete</span>
+      </div>
+      <div class="card-right">
+        <p class="project-summary-text">CFD-based external aerodynamic analysis of a concept 3-wheeler using <strong>StarCCM+</strong>, achieving a <strong>17% drag reduction (ΔCd)</strong> through iterative surface geometry refinement. Results validated experimentally against a geometrically scaled 3D printed model in a wind tunnel.</p>
+        <div class="tech-pills">
+          <span class="pill accent">StarCCM+</span>
+          <span class="pill accent">RANS CFD</span>
+          <span class="pill accent">Wind Tunnel Testing</span>
+          <span class="pill">k-ω SST</span>
+          <span class="pill">Surface Refinement</span>
+          <span class="pill accent3">17% Drag Reduction</span>
+        </div>
+        <button class="expand-btn"><span class="expand-icon">+</span><span>Technical Detail</span></button>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">CFD Methodology</p>
+              <p class="detail-text">Steady-state RANS simulations in <strong>StarCCM+</strong> using the k-ω SST turbulence closure — appropriate for external automotive aerodynamics where adverse pressure gradient boundary layer separation is the primary drag mechanism. C-H block domain topology with targeted refinement volumes around the nose, A-pillars, underbody, and wake. Mesh independence verified across three refinement levels prior to geometry optimisation.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Optimisation Process</p>
+              <p class="detail-text">Iterative surface refinement targeted the principal drag sources identified from Cp and skin friction distributions: <strong>frontal bluff-body pressure drag, A-pillar separation,</strong> and underbody wake. Modifications across iterations included nose profile reshaping, A-pillar radius increases, underbody fairing, and rear diffuser angle optimisation. Each iteration assessed for ΔCd and ΔCl to preserve stability margin.</p>
+            </div>
+          </div>
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Results</p>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+                <div class="result-highlight"><div class="num">17%</div><div class="label">Drag Coefficient Reduction</div></div>
+                <div class="result-highlight"><div class="num" style="color:var(--accent2);">WT</div><div class="label">Wind Tunnel Validated</div></div>
+              </div>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Experimental Validation</p>
+              <p class="detail-text">A geometrically scaled model was fabricated via FDM 3D printing and tested in a subsonic wind tunnel with a six-axis force balance. Drag and lift measurements at matched Reynolds number were compared against CFD predictions — agreement within acceptable margins confirmed the validity of the numerical approach and the optimisation conclusions.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Specifications</p>
+              <table class="spec-table">
+                <tr><td>Solver</td><td>StarCCM+ (steady RANS)</td></tr>
+                <tr><td>Turbulence Model</td><td>k-ω SST</td></tr>
+                <tr><td>Drag Reduction</td><td>~17% ΔCd (iterative refinement)</td></tr>
+                <tr><td>Validation</td><td>Scaled wind tunnel, 6-axis force balance</td></tr>
+                <tr><td>Model Fabrication</td><td>FDM 3D print (scaled geometry)</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORMULA STUDENT SIDEPODS -->
+  <div class="project-card reveal">
+    <div class="card-summary" onclick="toggleCard(this)">
+      <div class="card-left">
+        <div class="project-num-label">05 — FSAE Electric</div>
+        <h3 class="project-title">Carbon Fibre<br>Sidepods</h3>
+        <span class="project-status-badge status-complete">Complete</span>
+      </div>
+      <div class="card-right">
+        <p class="project-summary-text">Led aerothermal design of the lithium battery pack cooling system for a Formula Student electric vehicle. Modelled as <strong>forced convection</strong> through custom CFRP duct geometry, optimising duct profile to balance aerodynamic drag penalty against cell heat removal requirements under sustained high-discharge conditions.</p>
+        <div class="tech-pills">
+          <span class="pill accent">Aerothermal Design</span>
+          <span class="pill accent">Forced Convection Modelling</span>
+          <span class="pill">CFRP Wet Layup</span>
+          <span class="pill">Battery Thermal Management</span>
+          <span class="pill">FSAE Electric</span>
+          <span class="pill">Duct Geometry Optimisation</span>
+        </div>
+        <button class="expand-btn"><span class="expand-icon">+</span><span>Technical Detail</span></button>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Thermal Design Problem</p>
+              <p class="detail-text">Formula Student electric powertrains subject the battery pack to sustained high-discharge thermal loads during dynamic events. The design constraint was to extract sufficient heat from lithium cells using only <strong>ram air ducted through the sidepod</strong> — no active cooling, no pumps, no added mass beyond the duct structure itself.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Aerothermal Modelling</p>
+              <p class="detail-text">The system was analytically modelled as <strong>internal forced convection</strong> over a parameterised finned battery module. Duct geometry swept across inlet area, diffuser half-angle, and area ratio — characterising Nusselt number, pressure recovery, and skin friction drag. The Pareto front between cooling performance and aerodynamic cost identified the design-point geometry for manufacture.</p>
+            </div>
+          </div>
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Specifications</p>
+              <table class="spec-table">
+                <tr><td>Vehicle Class</td><td>Formula Student Electric</td></tr>
+                <tr><td>Cooling</td><td>Ram air forced convection (passive)</td></tr>
+                <tr><td>Material</td><td>Woven CFRP, wet layup, foam core</td></tr>
+                <tr><td>Model</td><td>Analytical parametric sweep</td></tr>
+                <tr><td>Optimisation</td><td>Drag vs. heat removal Pareto</td></tr>
+                <tr><td>Role</td><td>Lead — aerothermal design</td></tr>
+              </table>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Composite Fabrication</p>
+              <p class="detail-text">Sidepod skins manufactured in <strong>woven CFRP via wet layup</strong> over a machined foam core. The inlet lip geometry required complex compound curvature, demanding careful ply orientation selection to maintain structural integrity at the duct throat where local pressure gradients produce the highest bending loads on the skin laminate.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KYUPID -->
+  <div class="project-card reveal">
+    <div class="card-summary" onclick="toggleCard(this)">
+      <div class="card-left">
+        <div class="project-num-label">06 — Live Product</div>
+        <h3 class="project-title">Kyupid</h3>
+        <span class="project-status-badge status-active">Live · 150K+ Downloads</span>
+      </div>
+      <div class="card-right">
+        <p class="project-summary-text">Designed, launched, and scaled a <strong>productivity app for couples</strong> — now surpassing 150,000 downloads worldwide. Led the full product roadmap, UX architecture, and cross-platform engineering for iOS and Android using <strong>Flutter</strong>. Solo ownership across the entire product lifecycle.</p>
+        <div class="tech-pills">
+          <span class="pill accent2">Flutter (Dart)</span>
+          <span class="pill accent2">iOS &amp; Android</span>
+          <span class="pill accent2">Real-time Sync</span>
+          <span class="pill">Product Strategy</span>
+          <span class="pill">UX Design</span>
+          <span class="pill">Full-Stack Architecture</span>
+          <span class="pill accent3">150,000+ Downloads</span>
+        </div>
+        <button class="expand-btn"><span class="expand-icon">+</span><span>Technical Detail</span></button>
+      </div>
+    </div>
+    <div class="card-detail">
+      <div class="detail-inner">
+        <div class="detail-grid">
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Product Scope</p>
+              <p class="detail-text">Full solo ownership across the entire product lifecycle: <strong>market research → product definition → UX design → engineering → App Store / Play Store → growth</strong>. No external agency or co-founder. A demonstration that engineering systems thinking — requirements definition, architecture, iteration, validation — transfers directly to consumer software product development at scale.</p>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Technical Architecture</p>
+              <p class="detail-text"><strong>Flutter</strong> selected for a single codebase across iOS and Android with native rendering performance. Reactive state management for real-time shared state between two users on geographically separate devices with low perceived latency. Backend handles authentication, data sync, and push notification routing.</p>
+            </div>
+          </div>
+          <div>
+            <div class="detail-block">
+              <p class="detail-heading">Scale</p>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;">
+                <div class="result-highlight"><div class="num">150<span style="font-size:22px; color:var(--muted)">K+</span></div><div class="label">Worldwide Downloads</div></div>
+                <div class="result-highlight"><div class="num" style="color:var(--accent2)">2</div><div class="label">Platforms</div></div>
+              </div>
+            </div>
+            <div class="detail-block">
+              <p class="detail-heading">Specifications</p>
+              <table class="spec-table">
+                <tr><td>Framework</td><td>Flutter (Dart)</td></tr>
+                <tr><td>Platforms</td><td>iOS &amp; Android</td></tr>
+                <tr><td>Architecture</td><td>Reactive, real-time sync</td></tr>
+                <tr><td>Role</td><td>Solo — product, design, engineering</td></tr>
+                <tr><td>Downloads</td><td>150,000+ worldwide</td></tr>
+                <tr><td>Status</td><td>Live — ongoing development</td></tr>
+              </table>
+              <a class="github-link" href="https://www.kyupid.com" target="_blank" style="color:var(--accent); border-color:rgba(200,169,110,0.3);">↗ &nbsp;Visit kyupid.com</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-left reveal">
+    <h2 class="contact-title">Let's<br><span class="accent">Build</span><br>Something</h2>
+    <p class="contact-sub">Have an interesting problem in aerospace, underwater systems, or product development? I'd like to hear about it.</p>
+    <a href="mailto:hariaditya@live.in" class="btn-primary" style="display:inline-block;">Send a Message</a>
+  </div>
+  <div class="contact-right reveal reveal-delay-2">
+    <div class="contact-item">
+      <span class="contact-label">Email</span>
+      <a href="mailto:hariaditya@live.in" class="contact-value">hariaditya@live.in</a>
+      <span class="contact-arrow">→</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">Phone</span>
+      <a href="tel:+447824067292" class="contact-value">+44 7824 067 292</a>
+      <span class="contact-arrow">→</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">GitHub</span>
+      <a href="https://github.com/hariaditya97" target="_blank" class="contact-value">github.com/hariaditya97</a>
+      <span class="contact-arrow">→</span>
+    </div>
+    <div class="contact-item">
+      <span class="contact-label">App</span>
+      <a href="https://www.kyupid.com" target="_blank" class="contact-value">kyupid.com</a>
+      <span class="contact-arrow">→</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-copy">© 2025 Hari Kumar Aditya</p>
+  <p class="footer-tagline">Aerospace Engineering · Underwater Systems · Product Development · London</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+
+  function toggleCard(summaryEl) {
+    const card = summaryEl.closest('.project-card');
+    const detail = card.querySelector('.card-detail');
+    const isOpen = detail.classList.contains('open');
+    document.querySelectorAll('.card-detail.open').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.card-summary.open').forEach(s => s.classList.remove('open'));
+    if (!isOpen) {
+      detail.classList.add('open');
+      summaryEl.classList.add('open');
+      setTimeout(() => summaryEl.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+    }
+  }
+</script>
+</body>
+</html>
